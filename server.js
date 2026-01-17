@@ -5,6 +5,7 @@ import connectDB from './configs/db.js'
 import adminRouter from './routes/adminRoutes.js'
 import userRouter from './routes/userRoutes.js'
 import seedAdmin from './seedAdmin.js'
+import videoRouter from'./routes/videoRoutes.js'
 
 const app =express()
 await connectDB();
@@ -22,6 +23,7 @@ app.get('/',(req,res)=>{
 
 app.use('/api/admin',adminRouter)
 app.use('/api/user',userRouter)
+app.use('/api/video',videoRouter)
 
 const PORT = process.env.PORT||2000;
 
