@@ -46,3 +46,63 @@ export const getVideoById = async (req, res) => {
 };
 
 
+//delete video 
+export const deleteBlogById = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const blog = await Blog.findOneAndDelete(id);
+
+    //Delete all Comments associated with the blog
+
+    await Comment.deleteMany({blog:id});
+
+    res.json({
+      success: true,
+      message: "Blog deleted successfully",
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+// publish
+export const togglePublish = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const blog = await Blog.findById(id);
+    blog.isPublished = !blog.isPublished;
+    await blog.save();
+    res.json({
+      success: true,
+      message: "Blog status updated",
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+
+/// add comment 
+export const addComment = async (req, res) => {
+  try {
+    const { blogId, name, content } = req.body;  // Changed 'blog' to 'blogId'
+    await Comment.create({ blog: blogId, name, content });
+    res.json({
+      success: true,
+      message: "Comment added successfully",  // Fixed error message
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
