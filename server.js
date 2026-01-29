@@ -4,7 +4,7 @@ import cors from 'cors'
 import connectDB from './configs/db.js'
 import adminRouter from './routes/adminRoutes.js'
 import userRouter from './routes/userRoutes.js'
-import seedAdmin from './seedAdmin.js'
+// import seedAdmin from './seedAdmin.js'
 import videoRouter from'./routes/videoRoutes.js'
 
 const app =express()
@@ -18,7 +18,7 @@ app.use(cors())
 
 
 app.get('/',(req,res)=>{
-    res.send("app is working")
+    res.send("app is  fantastically working")
 })
 
 app.use('/api/admin',adminRouter)
@@ -27,13 +27,13 @@ app.use('/api/video',videoRouter)
 
 const PORT = process.env.PORT||2000;
 
-app.listen(PORT,(req,res)=>{
-     console.log('server is running on',PORT)
+
+app.listen(PORT,()=>{
+    console.log('server  is fantastically runing on '+ PORT)
 })
- 
 
  
-
+export default app;
 
 
 
