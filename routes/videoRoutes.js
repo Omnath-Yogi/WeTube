@@ -7,7 +7,7 @@ const videoRouter = express.Router();
 
 
 videoRouter.get('/all',getAllVideos)
-videoRouter.post('/:videoId',getVideoById)
+videoRouter.get('/:videoId',getVideoById)
 
 
 
