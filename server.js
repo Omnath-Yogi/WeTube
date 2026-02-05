@@ -9,8 +9,16 @@ import videoRouter from'./routes/videoRoutes.js'
 
 const app =express()
 await connectDB();
-app.use(express.json())
+app.use(express.json({ limit: '500mb' }))
+app.use(express.urlencoded({ limit: '500mb', extended: true }))
 app.use(cors())
+
+// Set timeout for large uploads
+app.use((req, res, next) => {
+  req.setTimeout(10 * 60 * 1000); // 10 minutes
+  res.setTimeout(10 * 60 * 1000); // 10 minutes
+  next();
+})
 
 // await seedAdmin();
 
