@@ -103,3 +103,72 @@ export const historyVideosByArray = async (req, res) => {
     });
   }
 };
+
+
+
+
+export const viewIncrement = async (req, res) => {
+  try {
+    const { videoId } = req.body;
+
+    await Video.findByIdAndUpdate(
+      videoId,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "View incremented"
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to increment view"
+    });
+  }
+};
+
+
+
+
+
+export const historyUpdate = async (req, res) => {
+  try {
+    const { userId, videoId } = req.body;
+
+    if (!userId || !videoId) {
+      return res.status(400).json({
+        success: false,
+        message: "userId and videoId are required"
+      });
+    }
+
+    await User.findByIdAndUpdate(userId, {
+      $pull: { watchHistory: videoId }
+    });
+
+    await User.findByIdAndUpdate(userId, {
+      $push: {
+        watchHistory: {
+          $each: [videoId],
+          $position: 0
+        }
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "History updated (latest first)"
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update history"
+    });
+  }
+};

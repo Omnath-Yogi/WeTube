@@ -76,8 +76,7 @@ export const addVideo = async (req, res) => {
       .status(201)
       .json({ success: true, message: "Video added successfully" });
   } catch (error) {
-    console.error("Video upload error:", error);
-    res.status(500).json({ success: false, message: "Error uploading video: " + error.message });
+    console.log(error);
   }
 
 
